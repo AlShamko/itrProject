@@ -1,18 +1,18 @@
 version: '3.8'
 services:
   backend:
-    build: ./Backend
+    build: backend
     ports:
       - "3000:3000"
     environment:
       - DATABASE_URL=${postgresql://inventory_db_5quq_user:1s2Q79PW2buko5e4fQMAio98VITzeLtc@dpg-d6lva3f5r7bs73c4h910-a.frankfurt-postgres.render.com/inventory_db_5quq}
       - PORT=3000
     volumes:
-      - ./Backend:/app
+      - ./backend:/app
       - /app/node_modules
 
   frontend:
-    build: ./Frontend
+    build: frontend
     ports:
       - "5173:5173"
     environment:
