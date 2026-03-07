@@ -2,7 +2,8 @@ FROM node:18-alpine
 RUN npm install -g pnpm
 WORKDIR /app
 COPY package*.json pnpm-lock.yaml ./
-RUN pnpm install
+RUN npm install -g pnpm && pnpm config set side-effects-cache false
+RUN pnpm install --unsafe-perm
 COPY . .
 RUN npx prisma generate
 EXPOSE 3000
