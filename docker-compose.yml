@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  backend:
+    build: ./Backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=${postgresql://inventory_db_5quq_user:1s2Q79PW2buko5e4fQMAio98VITzeLtc@dpg-d6lva3f5r7bs73c4h910-a.frankfurt-postgres.render.com/inventory_db_5quq}
+      - PORT=3000
+    volumes:
+      - ./Backend:/app
+      - /app/node_modules
+
+  frontend:
+    build: ./Frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_LOGTO_ENDPOINT=https://nd76sa.logto.app/
+      - VITE_LOGTO_APP_ID=z9nnm8b3gir6e7f7q6css
