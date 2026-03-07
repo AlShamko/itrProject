@@ -1,6 +1,9 @@
-enum Role {
-  USER
-  ADMIN
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
 }
 
 model User {
@@ -9,4 +12,19 @@ model User {
   role        Role        @default(USER)
   isBlocked   Boolean     @default(false)
   inventories Inventory[]
+}
+
+model Inventory {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  isPublic    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
 }

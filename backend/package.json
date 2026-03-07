@@ -14,9 +14,12 @@
   "packageManager": "pnpm@10.29.3",
   "dependencies": {
     "@logto/node": "^3.1.9",
+    "@prisma/client": "^7.4.2",
+    "@prisma/config": "^7.4.2",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "jose": "^6.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
