@@ -5,6 +5,5 @@ COPY package*.json pnpm-lock.yaml ./
 RUN npm install -g pnpm && pnpm config set side-effects-cache false
 RUN pnpm install --unsafe-perm
 COPY . .
-RUN npx prisma generate
 EXPOSE 3000
 CMD ["pnpm", "run", "dev"]
