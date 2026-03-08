@@ -1,24 +1,36 @@
-import { Request, Response } from "express";
 import express from "express";
 import cors from "cors";
-import {PrismaClient} from "@prisma/client";
+import {Pool} from "pg";
 
 export const app = express();
-const prisma = new PrismaClient();
 
 app.use(express.json());
 app.use(cors())
 
-app.get('/api/health', async (req, res) => {
-    try {
-        await prisma.$queryRaw`SELECT 1`;
-        res.send({ status: 'OK', database: 'Connected' });
-    } catch (err) {
-        const message = err instanceof Error ? err.message : 'Unknown error';
-        res.status(500).send({ status: 'Error', message });
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
     }
 });
 
-app.get("/api/health", (req: Request, res: Response) => {
-    res.json({ status: "ok" });
+app.get('/health', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT NOW()');
+        res.json({
+            status: 'ok',
+            database: 'Connected',
+            serverTime: result.rows[0].now
+        });
+    } catch (err) {
+        console.error('Database connection error:', err);
+        res.status(500).json({
+            status: 'error',
+            message: err instanceof Error ? err.message : 'Unknown error'
+        });
+    }
+});
+
+app.get('/', (req, res) => {
+    res.send('Backend is running!');
 });
