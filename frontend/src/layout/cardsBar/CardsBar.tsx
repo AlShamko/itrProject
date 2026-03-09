@@ -21,9 +21,4 @@ const CardsWrap = styled.div`
 `
 const CardsButton = styled(Button)`
     padding: 6px 8px;
-
-    &:hover {
-        color: ${props => props.theme.secondary};
-    }
-
 `

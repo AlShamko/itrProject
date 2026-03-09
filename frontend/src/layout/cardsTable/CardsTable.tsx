@@ -48,7 +48,6 @@ const Card = styled.div`
 
     &:hover {
         border-color: ${props => props.theme.primary};
-        transform: translateY(-4px);
     }
 `;
 

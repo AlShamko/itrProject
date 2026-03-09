@@ -27,6 +27,5 @@ const StyledButton = styled.button`
 
   &:hover {
     background-color: ${props => props.theme.body};
-      transform: translateY(-2px);
   }
 `;

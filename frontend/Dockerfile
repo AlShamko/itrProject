@@ -4,6 +4,5 @@ WORKDIR /app
 COPY package*.json pnpm-lock.yaml ./
 RUN pnpm install
 COPY . .
-RUN npx prisma generate
 EXPOSE 5173
 CMD ["pnpm", "run", "dev"]
