@@ -7,6 +7,12 @@ import {Button} from "../../components/button/Button.tsx";
 
 export const Header = () => {
     const {signIn, signOut, isAuthenticated} = useLogto();
+    const handleSignIn = () => {
+        signIn(`${window.location.origin}/callback`);
+    };
+    const handleSignOut = () => {
+        signOut(window.location.origin);
+    };
     // const [searchQuery, setSearchQuery] = useState('')
     //
     // const clearSearchQuery = searchQuery.trim().toLowerCase();
@@ -20,9 +26,9 @@ export const Header = () => {
                 // setSearchQuery = {setSearchQuery}
             />
             {isAuthenticated ? (
-                <Button onClick={() => signOut('http://localhost:5173/')}>Sign Out</Button>
+                <Button onClick={handleSignOut}>Sign Out</Button>
             ) : (
-                <Button onClick={() => signIn('http://localhost:5173/callback')}>Sign In</Button>
+                <Button onClick={handleSignIn}>Sign In</Button>
             )}
         </StyledHeader>
     );
@@ -32,6 +38,7 @@ const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
     padding: 1rem 2rem;
     background-color: ${props => props.theme.headerBg};
     border-bottom: 1px solid ${props => props.theme.border};
