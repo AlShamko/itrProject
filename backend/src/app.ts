@@ -1,36 +1,26 @@
 import express from "express";
 import cors from "cors";
-import {Pool} from "pg";
+
+import inventoryRoutes from "./routes/inventory.routes";
+import healthRoutes from "./routes/health.routes";
 
 export const app = express();
 
 app.use(express.json());
-app.use(cors())
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
+app.use(
+    cors({
+        origin: [
+            "https://itrprojectfinal.onrender.com",
+            "http://localhost:5173",
+        ],
+        credentials: true,
+    })
+);
 
-app.get('/health', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT NOW()');
-        res.json({
-            status: 'ok',
-            database: 'Connected',
-            serverTime: result.rows[0].now
-        });
-    } catch (err) {
-        console.error('Database connection error:', err);
-        res.status(500).json({
-            status: 'error',
-            message: err instanceof Error ? err.message : 'Unknown error'
-        });
-    }
-});
+app.use("/health", healthRoutes);
+app.use("/api/inventory", inventoryRoutes);
 
-app.get('/', (req, res) => {
-    res.send('Backend is running!');
+app.get("/", (req, res) => {
+    res.send("Backend running 🚀");
 });
