@@ -12,11 +12,12 @@ export const requireAuth = (requiredScopes: string[] = []) => {
 
             const token = authHeader.split(" ")[1];
 
+            const endpoint = process.env.LOGTO_ENDPOINT?.replace(/\/$/, "");
+            const issuerUrl = `${endpoint}/oidc`;
             const {payload} = await jwtVerify(token, JWKS, {
-                issuer: `${process.env.LOGTO_ENDPOINT}/oidc`,
+                issuer: issuerUrl,
                 audience: process.env.LOGTO_API_RESOURCE,
             });
-
             if (!payload.sub) {
                 return res.status(401).json({error: "Invalid token payload"});
             }

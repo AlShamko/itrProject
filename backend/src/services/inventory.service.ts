@@ -1,7 +1,7 @@
 import { prisma } from "../config/prisma";
 
 export const inventoryService = {
-  async getInventories(userId: string, role: string) {
+  async getInventories(userId: number, role: string) {
     if (role === "ADMIN") {
       return prisma.inventory.findMany({
         include: { creator: true },
@@ -13,7 +13,7 @@ export const inventoryService = {
     });
   },
 
-  async createInventory(userId: string, title: string, description?: string) {
+  async createInventory(userId: number, title: string, description?: string) {
     return prisma.inventory.create({
       data: {
         title,
