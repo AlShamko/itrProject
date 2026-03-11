@@ -20,8 +20,12 @@ enum Role {
 }
 
 model User {
-  id        String      @id
-  email     String      @unique
+  id        Int      @id @default(autoincrement())
+  logtoId    String   @unique
+  name      String
+  email     String   @unique
+  status    String   @default("active")
+  createdAt  DateTime @default(now())
   role      Role        @default(USER)
   inventory Inventory[]
   @@map("users")
@@ -36,7 +40,7 @@ model Inventory {
 
   version     Int      @default(0)
 
-  creatorId   String
+  creatorId   Int
   creator     User     @relation(fields: [creatorId], references: [id])
 
   customString1Name  String?

@@ -1,7 +1,8 @@
-import { Request } from "express";
+import {Request} from "express";
 
 export interface AuthUser {
-    id: string;
+    id: number;
+    logtoId: string;
     role: string;
     scopes: string[];
 }
