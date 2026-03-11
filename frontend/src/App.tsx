@@ -5,6 +5,7 @@ import {Callback} from "./pages/callback/callback.tsx";
 import {lightTheme} from "./styles/themes.ts";
 import {ThemeProvider} from "styled-components";
 import {HomePage} from "./pages/home/HomePage.tsx";
+import {AdminPage} from "./pages/admin/AdminPage.tsx";
 
 
 const config: LogtoConfig = {
@@ -29,9 +30,11 @@ export const App = () => (
                 <Routes>
                     <Route
                         path="/"
-                        element={
-                            <HomePage />
-                        }
+                        element={<HomePage />}
+                    />
+                    <Route
+                        path="/admin"
+                        element={<AdminPage />}
                     />
                     <Route
                         path="/callback"
