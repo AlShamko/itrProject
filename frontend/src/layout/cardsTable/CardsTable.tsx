@@ -5,7 +5,7 @@ export const CardsTable = () => {
         { id: 2, title: 'Private Inventory', author: 'JD', isPublic: false, category: 'category', like: 20},
     ];
     return (
-        <Grid>
+        <Wrap>
             {cards.map(item => (
 
                 <Card key={item.id}>
@@ -23,14 +23,15 @@ export const CardsTable = () => {
                     </div>
                 </Card>
             ))}
-        </Grid>
+        </Wrap>
     );
 };
 
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fill, max(80vw));
+const Wrap = styled.div`
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    width: 100%;
     gap: 20px;
     padding: 20px 0;
 `;

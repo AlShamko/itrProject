@@ -13,11 +13,10 @@ export const CardsBar = () => {
 
 const CardsWrap = styled.div`
     display: flex;
-    justify-content: end;
+    justify-items: end;
     align-items: center;
-    width: 90vw;
-    margin-top: 20px;
     gap: 20px;
+    margin-top: 20px;
 `
 const CardsButton = styled(Button)`
     padding: 6px 8px;
