@@ -6,7 +6,7 @@ import {Header} from "./components/Header/Header.tsx";
 import {HomePage} from "./pages/HomePage.tsx";
 import {AdminPage} from "./pages/AdminPage.tsx";
 import {Callback} from "./pages/Callback.tsx";
-import {TablePage} from "./components/TablePage/TablePage.tsx";
+import {TablePage} from "./pages/TablePage.tsx";
 
 const config: LogtoConfig = {
     endpoint: import.meta.env.VITE_LOGTO_ENDPOINT,

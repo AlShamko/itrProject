@@ -52,18 +52,19 @@ const ButtonsContainer = styled.div`
 `;
 
 const AdminButton = styled(Link)`
-    text-decoration: none;
-    padding: 8px 16px;
-    border: 1px solid ${props => props.theme.border};
-    border-radius: 4px;
-    background-color: ${props => props.theme.surface};
-    color: ${props => props.theme.text};
-    font-weight: 500;
-    transition: all 0.2s ease;
-    cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    padding: 8px 16px;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+    font-size: 1rem;    
+    color: ${props => props.theme.text};
+    border: 1px solid ${props => props.theme.border};
+    border-radius: 4px;
+    background-color: ${props => props.theme.surface};
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
 
     &:hover {
         background-color: ${props => props.theme.body};
