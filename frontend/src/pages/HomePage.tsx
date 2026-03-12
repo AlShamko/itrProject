@@ -1,24 +1,24 @@
-import {CardsBar} from "../../layout/cardsBar/CardsBar.tsx";
-import {CardsTable} from "../../layout/cardsTable/CardsTable.tsx";
+import {CardsBar} from "../components/CardsBar/CardsBar.tsx";
+import {CardsList} from "../components/CardsList/CardsList.tsx";
 import styled from "styled-components";
-import {AdminButton} from "../../layout/adminButton/AdminButton.tsx";
 import {useLogto} from "@logto/react";
-import {useUserData} from "../../hooks/user-data.ts";
+import {useUserData} from "../hooks/user-data.ts";
+import {useTables} from "../hooks/useTables.ts";
 
 export const HomePage = () => {
+    const {tables, addTable} = useTables();
     const {isAuthenticated} = useLogto();
-    const { userId, userScopes } = useUserData();
+    const {userId, userScopes} = useUserData();
     console.log(isAuthenticated);
     console.log(userScopes);
     console.log(userId);
 
     return (
         <Wrapper>
-            <ButtonWrapper>
-                {isAuthenticated && <AdminButton />}
-                {isAuthenticated && <CardsBar />}
-            </ButtonWrapper>
-            <CardsTable />
+            {isAuthenticated && <ButtonWrapper>
+                <CardsBar onAddTable={addTable} />
+            </ButtonWrapper>}
+            <CardsList table={tables} />
         </Wrapper>
     );
 };

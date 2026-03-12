@@ -2,9 +2,11 @@ import {jwtVerify} from "jose";
 import {prisma} from "../config/prisma";
 import {JWKS} from "../utils/jwks";
 
+
 export const requireAuth = (requiredScopes: string[] = []) => {
     return async (req: any, res: any, next: any) => {
         try {
+            console.log(`[requireAuth] called for ${req.method} ${req.path}`);
             const authHeader = req.headers.authorization;
             if (!authHeader || !authHeader.startsWith("Bearer ")) {
                 return res.status(401).json({error: "Missing token"});

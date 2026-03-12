@@ -1,47 +1,37 @@
-import styled from 'styled-components';
-export const CardsTable = () => {
-    const cards = [
-        { id: 1, title: 'Table test 1', author: 'Aliaksandr ', isPublic: true, category: 'category1', like: 15 },
-        { id: 2, title: 'Private Inventory', author: 'JD', isPublic: false, category: 'category', like: 20},
-    ];
-    return (
-        <Wrap>
-            {cards.map(item => (
+import type {Table} from "../../hooks/useTables.ts";
+import styled from "styled-components";
+import {useNavigate} from "react-router-dom";
 
-                <Card key={item.id}>
-                    <Author>
-                        <AuthorAvatar></AuthorAvatar>
-                        <AuthorName>{item.author}</AuthorName>
-                    </Author>
-                    <Title>{item.title}</Title>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: "end"}}>
-                        <Badge $isPublic={item.isPublic}>
-                            {item.isPublic ? 'Public' : 'Private'}
-                        </Badge>
-                        <Category>{item.category}</Category>
-                        <Like>like {item.like}</Like>
-                    </div>
-                </Card>
-            ))}
-        </Wrap>
+interface Props {
+    table: Table;
+}
+
+export const CardTable = ({table}: Props) => {
+    const navigate = useNavigate();
+    return (
+        <Card onClick={() => navigate(`/table/${table.id}`)}>
+            <Author>
+                <AuthorAvatar></AuthorAvatar>
+                <AuthorName>{table.author}</AuthorName>
+            </Author>
+            <Title>{table.title}</Title>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '10px', alignItems: "end"}}>
+                <Badge $isPublic={table.isPublished}>
+                    {table.isPublished ? 'Public' : 'Private'}
+                </Badge>
+                <Category>{table.category}</Category>
+                <Like>like {table.like}</Like>
+            </div>
+        </Card>
     );
 };
-
-const Wrap = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    gap: 20px;
-    padding: 20px 0;
-`;
 
 const Card = styled.div`
     display: grid;
     grid-template-columns: 1fr 4fr 1fr;
     align-items: center;
     background: ${props => props.theme.surface};
-    border: 1px solid ${props => props.theme.border};
+    border: 2px solid ${props => props.theme.border};
     border-radius: 12px;
     padding: 25px;
     transition: transform 0.2s ease;
@@ -97,13 +87,13 @@ const Badge = styled.span<{ $isPublic: boolean }>`
 
 const Category = styled.p`
     margin: 0;
-  font-size: 0.9rem;
-  color: ${props => props.theme.text};
-  opacity: 0.7;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+    font-size: 0.9rem;
+    color: ${props => props.theme.text};
+    opacity: 0.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 `;
 
 const Like = styled.p`

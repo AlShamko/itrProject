@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import type {User} from "../../types/user.ts";
+import type {User} from "../pages/AdminPage.tsx";
 
 interface TableRowProps {
     user: User;
@@ -12,7 +12,7 @@ interface StyledRowProps {
     $isSelected: boolean;
 }
 
-export const TableRow = ({user, isSelected, onSelect, index}: TableRowProps) => {
+export const Users = ({user, isSelected, onSelect, index}: TableRowProps) => {
     return (
         <StyledRow $isSelected={isSelected}>
             <td>
@@ -30,7 +30,7 @@ export const TableRow = ({user, isSelected, onSelect, index}: TableRowProps) => 
                     {user.status ? user.status.charAt(0).toUpperCase() + user.status.slice(1) : 'Active'}
                 </StatusBadge>
             </td>
-            <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+            <td>{new Date(user.created).toLocaleDateString()}</td>
         </StyledRow>
     );
 };

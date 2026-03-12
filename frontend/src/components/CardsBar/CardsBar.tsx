@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import {Button} from "../../components/button/Button.tsx";
+import {Button} from "../Button.tsx";
 
-export const CardsBar = () => {
+interface Props {
+    onAddTable: () => void;
+}
+
+export const CardsBar = ({ onAddTable }: Props) => {
     return (
         <CardsWrap>
-            <CardsButton>Add</CardsButton>
-            <CardsButton>Del</CardsButton>
-            <CardsButton>Del All</CardsButton>
+            <CardsButton onClick={onAddTable}>Create Table</CardsButton>
         </CardsWrap>
     );
 };
