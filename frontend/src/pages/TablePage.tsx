@@ -179,18 +179,19 @@ const StyledTable = styled.table`
     }
 
     tr.selected {
-        background-color: ${props => props.theme.primary + '15'}; 
+        background-color: ${props => props.theme.primary + '10'}; 
     }
 
-    td {
+    td, th {
         & > div {
             display: inline-block;
         }
 
         input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
             cursor: pointer;
-            transform: scale(1.2);
-            accent-color: ${props => props.theme.primary};
+            accent-color: ${props => props.theme.primary + '50'};
         }
     }
     

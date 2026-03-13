@@ -2,11 +2,13 @@ import styled from 'styled-components';
 import {CardTable} from "../CardTable/CardTable.tsx";
 import type {Table} from "../../hooks/useTables.ts";
 
-interface Props {
+interface CardsListProps {
     table: Table[];
+    selectedIds: string[];
+    onToggleSelect: (id: string) => void;
 }
 
-export const CardsList = ({table}: Props) => {
+export const CardsList = ({table, selectedIds, onToggleSelect}: CardsListProps) => {
 
     return (
         <Wrap>
@@ -14,6 +16,8 @@ export const CardsList = ({table}: Props) => {
                 <CardTable
                     key={table.id}
                     table={table}
+                    isSelected={selectedIds.includes(table.id)}
+                    onToggle={onToggleSelect}
                 />
             ))}
         </Wrap>

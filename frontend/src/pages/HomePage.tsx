@@ -4,21 +4,39 @@ import styled from "styled-components";
 import {useLogto} from "@logto/react";
 import {useUserData} from "../hooks/user-data.ts";
 import {useTables} from "../hooks/useTables.ts";
+import {useState} from "react";
 
 export const HomePage = () => {
-    const {tables, addTable} = useTables();
     const {isAuthenticated} = useLogto();
     const {userId, userScopes} = useUserData();
+    const {tables, addTable, deleteTables} = useTables();
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
     console.log(isAuthenticated);
     console.log(userScopes);
     console.log(userId);
 
+    const toggleSelect = (id: string) => {
+        setSelectedIds(prev =>
+            prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+        );
+    };
+
+    const clearSelection = () => setSelectedIds([]);
+
     return (
         <Wrapper>
-            {isAuthenticated && <ButtonWrapper>
-                <CardsBar onAddTable={addTable} />
-            </ButtonWrapper>}
-            <CardsList table={tables} />
+            <CardsBar
+                onAddTable={addTable}
+                selectedIds={selectedIds}
+                onClearSelection={clearSelection}
+                deleteTables={deleteTables}
+            />
+            <CardsList
+                table={tables}
+                selectedIds={selectedIds}
+                onToggleSelect={toggleSelect}
+            />
         </Wrapper>
     );
 };
@@ -30,10 +48,3 @@ const Wrapper = styled.div`
     align-items: center;
     width: 100%;
 `
-
-const ButtonWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    width: 100%;
-    padding: 1rem 2rem;`

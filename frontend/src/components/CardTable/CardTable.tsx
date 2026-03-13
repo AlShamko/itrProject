@@ -4,21 +4,33 @@ import {useNavigate} from "react-router-dom";
 
 interface Props {
     table: Table;
+    isSelected: boolean;
+    onToggle: (id: string) => void;
 }
 
-export const CardTable = ({table}: Props) => {
+export const CardTable = ({table, isSelected, onToggle}: Props) => {
     const navigate = useNavigate();
     return (
-        <Card onClick={() => navigate(`/table/${table.id}`)}>
+        <Card
+            onClick={() => navigate(`/table/${table.id}`)}
+            $isSelected={isSelected}
+        >
+            <CheckboxWrapper onClick={(e) => e.stopPropagation()}>
+                <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => onToggle(table.id)}
+                />
+            </CheckboxWrapper>
+
             <Author>
-                <AuthorAvatar></AuthorAvatar>
+                <AuthorAvatar />
                 <AuthorName>{table.author}</AuthorName>
             </Author>
             <Title>{table.title}</Title>
-            <div style={{display: 'flex', flexDirection: 'column', gap: '10px', alignItems: "end"}}>
-                <Badge $isPublic={table.isPublished}>
-                    {table.isPublished ? 'Public' : 'Private'}
-                </Badge>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: "end"}}>
+                <Badge $isPublic={table.isPublished}>{table.isPublished ? 'Public' : 'Private'}</Badge>
                 <Category>{table.category}</Category>
                 <Like>like {table.like}</Like>
             </div>
@@ -26,12 +38,15 @@ export const CardTable = ({table}: Props) => {
     );
 };
 
-const Card = styled.div`
+
+const Card = styled.div<{ $isSelected: boolean }>`
     display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns:auto 1fr 4fr 1fr;
     align-items: center;
     background: ${props => props.theme.surface};
-    border: 2px solid ${props => props.theme.border};
+    border: 2px solid ${props =>
+        props.$isSelected ? props.theme.primary : props.theme.border
+    };
     border-radius: 12px;
     padding: 25px;
     transition: transform 0.2s ease;
@@ -102,3 +117,15 @@ const Like = styled.p`
     opacity: 0.7;
     margin: 0;
 `
+const CheckboxWrapper = styled.div`
+    padding-right: 15px;
+    display: flex;
+    align-items: center;
+    
+    input {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        accent-color: ${props => props.theme.primary + '30'};
+    }
+`;
