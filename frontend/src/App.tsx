@@ -34,6 +34,7 @@ export const App = () => (
                             element={<HomePage />}
                         />
                         <Route
+
                             path="/table/:id"
                             element={<TablePage />}
                         />

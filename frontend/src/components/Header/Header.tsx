@@ -1,12 +1,13 @@
 import styled from 'styled-components';
-import { useLogto } from "@logto/react";
-import { SearchForm } from "../SearchForm";
-import { Button } from "../Button";
+import {useLogto} from "@logto/react";
+import {SearchForm} from "../SearchForm";
+import {Button} from "../Button";
 import LogoImg from "../../assets/img/logo.webp";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export const Header = () => {
-    const { signIn, signOut, isAuthenticated } = useLogto();
+    const navigate = useNavigate();
+    const {signIn, signOut, isAuthenticated} = useLogto();
 
     const handleSignIn = () => {
         signIn(`${window.location.origin}/callback`);
@@ -18,9 +19,12 @@ export const Header = () => {
 
     return (
         <StyledHeader>
-            <Logo src={LogoImg} alt="logo" />
+            <Logo
+                src={LogoImg}
+                alt="logo"
+                onClick={() => navigate(`/`)}
+            />
             <SearchForm />
-
             {isAuthenticated ? (
                 <ButtonsContainer>
                     <Button onClick={handleSignOut}>Sign Out</Button>
@@ -41,8 +45,12 @@ const StyledHeader = styled.header`
     top: 0;
     z-index: 100;
     padding: 1rem 0;
-    background-color: ${props => props.theme.headerBg};
-    border-bottom: 1px solid ${props => props.theme.border};
+    background-color: ${
+        props => props.theme.headerBg
+    };
+    border-bottom: 1px solid ${
+        props => props.theme.border
+    };
 `;
 
 const ButtonsContainer = styled.div`
@@ -57,18 +65,32 @@ const AdminButton = styled(Link)`
     justify-content: center;
     padding: 8px 16px;
     font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
-    font-size: 1rem;    
-    color: ${props => props.theme.text};
-    border: 1px solid ${props => props.theme.border};
+    font-size: 1rem;
+    color: ${
+        props => props.theme.text
+    };
+    border: 1px solid ${
+        props => props.theme.border
+    };
     border-radius: 4px;
-    background-color: ${props => props.theme.surface};
+    background-color: ${
+        props => props.theme.surface
+    };
     text-decoration: none;
     transition: all 0.2s ease;
     cursor: pointer;
 
     &:hover {
-        background-color: ${props => props.theme.body};
-        border-color: ${props => props.theme.primary};
+        background -color: $ {
+        props
+
+    = > props . theme . body
+    };
+        border -color: $ {
+        props
+
+    = > props . theme . primary
+    };
     }
 `;
 
