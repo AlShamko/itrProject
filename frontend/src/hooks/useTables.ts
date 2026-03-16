@@ -1,5 +1,4 @@
 import {useState, useEffect} from "react";
-import {useLogto} from "@logto/react";
 
 export interface Table {
     id: string;
@@ -19,7 +18,6 @@ export interface TableRow {
 }
 
 export const useTables = () => {
-    const { isAuthenticated } = useLogto();
     const [tables, setTables] = useState<Table[]>(() => {
         const saved = localStorage.getItem("inventory_tables");
         if (saved) {
@@ -51,16 +49,9 @@ export const useTables = () => {
         localStorage.setItem("inventory_tables", JSON.stringify(tables));
     }, [tables]);
 
-    const canEdit = () => {
-        if (!isAuthenticated) {
-            alert("Please log in to perform this action");
-            return false;
-        }
-        return true;
-    };
+
 
     const addTable = () => {
-        if (!canEdit()) return;
         const newTable: Table = {
             id: crypto.randomUUID(),
             title: "New Table",
@@ -74,8 +65,6 @@ export const useTables = () => {
     };
 
     const deleteTables = (ids: string[]) => {
-        if (!canEdit()) return;
-
         setTables(prev => {
             const next = prev.filter(table => !ids.includes(table.id));
             console.log("Tables after del:", next);
@@ -84,14 +73,12 @@ export const useTables = () => {
     };
 
     const updateTable = (id: string, updatedFields: Partial<Table>) => {
-        if (!canEdit()) return;
         setTables(prev => prev.map(table =>
             table.id === id ? {...table, ...updatedFields} : table
         ));
     };
 
     const addRow = (tableId: string) => {
-        if (!canEdit()) return;
         const newRow: TableRow = {
             id: crypto.randomUUID().slice(0, 8).toUpperCase(),
             equipment: "New Equipment",
@@ -103,7 +90,6 @@ export const useTables = () => {
     };
 
     const updateRow = (tableId: string, rowId: string, updatedRow: Partial<TableRow>) => {
-        if (!canEdit()) return;
         setTables(prev => prev.map(t => {
             if (t.id !== tableId) return t;
             return {
@@ -114,7 +100,6 @@ export const useTables = () => {
     };
 
     const deleteRows = (tableId: string, rowIds: string[]) => {
-        if (!canEdit()) return;
         setTables(prev => prev.map(t => {
             if (t.id !== tableId) return t;
             return {

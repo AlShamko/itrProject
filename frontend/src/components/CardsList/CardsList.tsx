@@ -6,9 +6,10 @@ interface CardsListProps {
     table: Table[];
     selectedIds: string[];
     onToggleSelect: (id: string) => void;
+    isAuthenticated: boolean;
 }
 
-export const CardsList = ({table, selectedIds, onToggleSelect}: CardsListProps) => {
+export const CardsList = ({table, selectedIds, onToggleSelect, isAuthenticated}: CardsListProps) => {
 
     return (
         <Wrap>
@@ -18,6 +19,7 @@ export const CardsList = ({table, selectedIds, onToggleSelect}: CardsListProps) 
                     table={table}
                     isSelected={selectedIds.includes(table.id)}
                     onToggle={onToggleSelect}
+                    isAuthenticated={isAuthenticated}
                 />
             ))}
         </Wrap>

@@ -26,16 +26,19 @@ export const HomePage = () => {
 
     return (
         <Wrapper>
-            <CardsBar
-                onAddTable={addTable}
-                selectedIds={selectedIds}
-                onClearSelection={clearSelection}
-                deleteTables={deleteTables}
-            />
+            {isAuthenticated && (
+                <CardsBar
+                    onAddTable={addTable}
+                    selectedIds={selectedIds}
+                    onClearSelection={clearSelection}
+                    deleteTables={deleteTables}
+                />
+            )}
             <CardsList
                 table={tables}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
+                isAuthenticated={isAuthenticated}
             />
         </Wrapper>
     );

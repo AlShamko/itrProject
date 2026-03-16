@@ -6,9 +6,10 @@ interface Props {
     table: Table;
     isSelected: boolean;
     onToggle: (id: string) => void;
+    isAuthenticated: boolean;
 }
 
-export const CardTable = ({table, isSelected, onToggle}: Props) => {
+export const CardTable = ({table, isSelected, onToggle, isAuthenticated}: Props) => {
     const navigate = useNavigate();
     return (
         <Card
@@ -16,11 +17,12 @@ export const CardTable = ({table, isSelected, onToggle}: Props) => {
             $isSelected={isSelected}
         >
             <CheckboxWrapper onClick={(e) => e.stopPropagation()}>
+                {isAuthenticated && (
                 <input
                     type="checkbox"
                     checked={isSelected}
                     onChange={() => onToggle(table.id)}
-                />
+                />)}
             </CheckboxWrapper>
 
             <Author>

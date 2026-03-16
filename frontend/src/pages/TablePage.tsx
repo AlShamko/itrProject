@@ -4,12 +4,14 @@ import {useTables} from "../hooks/useTables.ts";
 import {EditableField} from "../components/EditableField.tsx";
 import {HeaderTablePage} from "../components/TablePage/HeaderTablePage.tsx";
 import {useState} from "react";
+import {useLogto} from "@logto/react";
 
 export const TablePage = () => {
     const {id} = useParams<{ id: string }>();
     const {tables, addRow, updateRow, deleteRows} = useTables();
     const [selectedRows, setSelectedRows] = useState<string[]>([]);
     const tableData = tables.find(t => t.id === id);
+    const {isAuthenticated} = useLogto();
 
     if (!tableData) {
         return <Container>Table not find</Container>;
@@ -48,23 +50,25 @@ export const TablePage = () => {
         <Container>
             <HeaderTablePage />
             <TableContainer>
-                <ActionBar>
-                    <div style={{display: 'flex', gap: '10px'}}>
-                        <AddButton onClick={handleAddRow}>Add Row</AddButton>
-                        <DeleteButton onClick={handleBulkDelete}>Delete</DeleteButton>
-                    </div>
-                </ActionBar>
-
+                {isAuthenticated && (
+                    <ActionBar>
+                        <div style={{display: 'flex', gap: '10px'}}>
+                            <AddButton onClick={handleAddRow}>Add Row</AddButton>
+                            <DeleteButton onClick={handleBulkDelete}>Delete</DeleteButton>
+                        </div>
+                    </ActionBar>
+                )}
                 <StyledTable>
                     <thead>
                         <tr>
-                            <th>
-                                <input
-                                    type="checkbox"
-                                    onChange={toggleSelectAll}
-                                    checked={tableData.rows.length > 0 && selectedRows.length === tableData.rows.length}
-                                />
-                            </th>
+                            {isAuthenticated && (
+                                <th>
+                                    <input
+                                        type="checkbox"
+                                        onChange={toggleSelectAll}
+                                        checked={tableData.rows.length > 0 && selectedRows.length === tableData.rows.length}
+                                    />
+                                </th>)}
                             <th>ID</th>
                             <th>Equipment</th>
                             <th>Year</th>
@@ -76,13 +80,14 @@ export const TablePage = () => {
                                 key={row.id}
                                 className={selectedRows.includes(row.id) ? 'selected' : ''}
                             >
-                                <td>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedRows.includes(row.id)}
-                                        onChange={() => toggleSelectRow(row.id)}
-                                    />
-                                </td>
+                                {isAuthenticated && (
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRows.includes(row.id)}
+                                            onChange={() => toggleSelectRow(row.id)}
+                                        />
+                                    </td>)}
                                 <td>{row.id}</td>
                                 <td>
                                     <EditableField
@@ -179,7 +184,7 @@ const StyledTable = styled.table`
     }
 
     tr.selected {
-        background-color: ${props => props.theme.primary + '10'}; 
+        background-color: ${props => props.theme.primary + '10'};
     }
 
     td, th {
@@ -194,8 +199,8 @@ const StyledTable = styled.table`
             accent-color: ${props => props.theme.primary + '50'};
         }
     }
-    
+
     tbody td {
-        color: ${props => props.theme.secondary}; 
+        color: ${props => props.theme.secondary};
     }
 `;
