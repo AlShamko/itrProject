@@ -3,6 +3,7 @@ import cors from "cors";
 
 import inventoryRoutes from "./routes/inventory.routes";
 import healthRoutes from "./routes/health.routes";
+import supportRoutes from "./routes/support.routes";
 import {prisma} from "./config/prisma";
 import {requireAuth} from "./middleware/auth.middlware";
 import {AuthRequest} from "./types/auth.types";
@@ -22,6 +23,7 @@ app.use(
 
 app.use("/health", healthRoutes);
 app.use("/api/inventory", inventoryRoutes);
+app.use("/api/support", supportRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend running 🚀");

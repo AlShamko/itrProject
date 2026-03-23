@@ -1,26 +1,23 @@
 import styled from "styled-components";
 import {Search} from 'lucide-react';
 
-// interface SearchFormProps {
-//     setSearchQuery: (value: string) => void;
-//     searchQuery: string;
-// }
+interface SearchFormProps {
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
 
-export const SearchForm = () => {
-    // const {
-    //     searchQuery,
-    //     setSearchQuery
-    // } = props;
+export const SearchForm = ({ value, onChange }:SearchFormProps) => {
     return (
         <StyledForm
             onSubmit={e => e.preventDefault()}
         >
             <SearchIconWrapper size={18} />
             <SearchInput
+                type="text"
+                value={value}
+                onChange={onChange}
                 placeholder="Search"
-                // value={searchQuery}
-                // onInput={(event) => setSearchQuery(event.currentTarget.value)}
             />
         </StyledForm>
     );

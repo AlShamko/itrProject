@@ -11,6 +11,7 @@ interface CardsListProps {
 
 export const CardsList = ({table, selectedIds, onToggleSelect, isAuthenticated}: CardsListProps) => {
 
+
     return (
         <Wrap>
             {table.map(table => (
@@ -21,7 +22,7 @@ export const CardsList = ({table, selectedIds, onToggleSelect, isAuthenticated}:
                     onToggle={onToggleSelect}
                     isAuthenticated={isAuthenticated}
                 />
-            ))}
+            )).reverse()}
         </Wrap>
     );
 };

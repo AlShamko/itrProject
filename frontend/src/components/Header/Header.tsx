@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import {useLogto} from "@logto/react";
-import {SearchForm} from "../SearchForm";
-import {Button} from "../Button";
+import {SearchForm} from "../SearchForm.tsx";
+import {Button} from "../Button.tsx";
 import LogoImg from "../../assets/img/logo.webp";
 import {Link, useNavigate} from "react-router-dom";
+import {useTables} from "../../hooks/useTables.ts";
 
 export const Header = () => {
+    const { searchQuery, setSearchQuery } = useTables();
     const navigate = useNavigate();
-    const {signIn, signOut, isAuthenticated} = useLogto();
+    const { signIn, signOut, isAuthenticated } = useLogto();
 
     const handleSignIn = () => {
         signIn(`${window.location.origin}/callback`);
@@ -24,7 +26,10 @@ export const Header = () => {
                 alt="logo"
                 onClick={() => navigate(`/`)}
             />
-            <SearchForm />
+            <SearchForm
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+            />
             {isAuthenticated ? (
                 <ButtonsContainer>
                     <Button onClick={handleSignOut}>Sign Out</Button>
@@ -79,19 +84,6 @@ const AdminButton = styled(Link)`
     text-decoration: none;
     transition: all 0.2s ease;
     cursor: pointer;
-
-    &:hover {
-        background -color: $ {
-        props
-
-    = > props . theme . body
-    };
-        border -color: $ {
-        props
-
-    = > props . theme . primary
-    };
-    }
 `;
 
 const Logo = styled.img`

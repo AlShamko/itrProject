@@ -7,6 +7,7 @@ import {HomePage} from "./pages/HomePage.tsx";
 import {AdminPage} from "./pages/AdminPage.tsx";
 import {Callback} from "./pages/Callback.tsx";
 import {TablePage} from "./pages/TablePage.tsx";
+import {SupportTicketModal} from "./components/SupportTicketModal.tsx";
 
 const config: LogtoConfig = {
     endpoint: import.meta.env.VITE_LOGTO_ENDPOINT,
@@ -47,6 +48,7 @@ export const App = () => (
                             element={<Callback />}
                         />
                     </Routes>
+                    <SupportTicketModal />
                 </BrowserRouter>
             </Wrapper>
         </ThemeProvider>

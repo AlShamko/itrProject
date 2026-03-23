@@ -17,39 +17,37 @@ export interface TableRow {
     year: string;
 }
 
+
 export const useTables = () => {
+    const [searchQuery, setSearchQuery] = useState<string>('');
+
     const [tables, setTables] = useState<Table[]>(() => {
-        const saved = localStorage.getItem("inventory_tables");
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                return Array.isArray(parsed)
-                    ? parsed.map((t: Table) => ({ ...t, rows: t.rows || [] }))
-                    : [];
-            } catch (e) {
-                console.error("Error parsing localStorage", e);
-                return [];
-            }
+        const savedTables = localStorage.getItem("inventory_tables");
+        if (!savedTables) return [{
+            id: "71d61424-b4f8-45dd-97ce-cd85fab7bf57",
+            title: "Table test 1",
+            author: "Aliaksandr",
+            isPublished: true,
+            category: "category1",
+            like: 15,
+            description: "Description",
+            rows: []
+        }];
+
+        try {
+            const parsed = JSON.parse(savedTables);
+            return Array.isArray(parsed)
+                ? parsed.map((t: Table) => ({...t, rows: t.rows || []}))
+                : [];
+        } catch (e) {
+            console.error("Error parsing localStorage", e);
+            return [];
         }
-        return saved ? JSON.parse(saved) : [
-            {
-                id: "71d61424-b4f8-45dd-97ce-cd85fab7bf57",
-                title: "Table test 1",
-                author: "Aliaksandr",
-                isPublished: true,
-                category: "category1",
-                like: 15,
-                description: "Description",
-                rows: []
-            }
-        ];
     });
 
     useEffect(() => {
         localStorage.setItem("inventory_tables", JSON.stringify(tables));
     }, [tables]);
-
-
 
     const addTable = () => {
         const newTable: Table = {
@@ -78,6 +76,11 @@ export const useTables = () => {
         ));
     };
 
+    const clearSearchQuery = searchQuery.trim().toLowerCase();
+    const filteredTables = clearSearchQuery.length > 0
+        ? tables.filter(({title}) => title.toLowerCase().includes(clearSearchQuery))
+        : null;
+
     const addRow = (tableId: string) => {
         const newRow: TableRow = {
             id: crypto.randomUUID().slice(0, 8).toUpperCase(),
@@ -85,7 +88,7 @@ export const useTables = () => {
             year: "2026"
         };
         setTables(prev => prev.map(t =>
-            t.id === tableId ? { ...t, rows: [...t.rows, newRow] } : t
+            t.id === tableId ? {...t, rows: [...t.rows, newRow]} : t
         ));
     };
 
@@ -94,7 +97,7 @@ export const useTables = () => {
             if (t.id !== tableId) return t;
             return {
                 ...t,
-                rows: t.rows.map(r => r.id === rowId ? { ...r, ...updatedRow } : r)
+                rows: t.rows.map(r => r.id === rowId ? {...r, ...updatedRow} : r)
             };
         }));
     };
@@ -109,15 +112,15 @@ export const useTables = () => {
         }));
     };
 
-    useEffect(() => {
-        localStorage.setItem("inventory_tables", JSON.stringify(tables));
-    }, [tables]);
 
     return {
         tables,
         addTable,
         deleteTables,
         updateTable,
+        filteredTables,
+        searchQuery,
+        setSearchQuery,
         addRow,
         updateRow,
         deleteRows

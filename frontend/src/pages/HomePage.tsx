@@ -1,10 +1,10 @@
-import {CardsBar} from "../components/CardsBar/CardsBar.tsx";
-import {CardsList} from "../components/CardsList/CardsList.tsx";
 import styled from "styled-components";
 import {useLogto} from "@logto/react";
 import {useUserData} from "../hooks/user-data.ts";
 import {useTables} from "../hooks/useTables.ts";
 import {useState} from "react";
+import { CardsBar } from "../components/CardsBar/CardsBar.tsx";
+import {CardsList} from "../components/CardsList/CardsList.tsx";
 
 export const HomePage = () => {
     const {isAuthenticated} = useLogto();
