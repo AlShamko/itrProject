@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { requireAuth } from "../middleware/auth.middlware";
-import { inventoryController } from "../contollers/inventory.controller";
+import { inventoryController } from "../controllers/inventory.controller";
 
 const router = Router();
 

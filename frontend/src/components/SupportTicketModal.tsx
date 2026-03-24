@@ -144,7 +144,7 @@ const FloatingButton = styled.button`
     font-size: 16px;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
+    z-index: 9999;
     font-family: inherit;
 
     &:hover {
@@ -163,7 +163,7 @@ const Overlay = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1001;
+    z-index: 10000;
 `;
 
 const Modal = styled.div`

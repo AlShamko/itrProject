@@ -8,6 +8,7 @@ import {AdminPage} from "./pages/AdminPage.tsx";
 import {Callback} from "./pages/Callback.tsx";
 import {TablePage} from "./pages/TablePage.tsx";
 import {SupportTicketModal} from "./components/SupportTicketModal.tsx";
+import {SalesforceModal} from "./components/SalesforceModal.tsx";
 
 const config: LogtoConfig = {
     endpoint: import.meta.env.VITE_LOGTO_ENDPOINT,
@@ -49,6 +50,7 @@ export const App = () => (
                         />
                     </Routes>
                     <SupportTicketModal />
+                    <SalesforceModal />
                 </BrowserRouter>
             </Wrapper>
         </ThemeProvider>
