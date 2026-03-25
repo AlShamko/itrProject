@@ -5,15 +5,18 @@
     "target": "ESNext",
     "strict": true,
     "esModuleInterop": true,
-    "ignoreDeprecations": "6.0",
     "rootDir": "./src",
     "outDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "lib": ["ESNext"],
-    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "ESNext"
+    ],
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }
 
 

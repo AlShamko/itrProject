@@ -7,7 +7,7 @@ interface SearchFormProps {
 }
 
 
-export const SearchForm = ({ value, onChange }:SearchFormProps) => {
+export const SearchForm = ({value, onChange}: SearchFormProps) => {
     return (
         <StyledForm
             onSubmit={e => e.preventDefault()}

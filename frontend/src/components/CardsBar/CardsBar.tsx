@@ -8,7 +8,7 @@ interface CardsBarProps {
     deleteTables: (ids: string[]) => void;
 }
 
-export const CardsBar = ({ onAddTable, selectedIds, onClearSelection, deleteTables }: CardsBarProps) => {
+export const CardsBar = ({onAddTable, selectedIds, onClearSelection, deleteTables}: CardsBarProps) => {
 
     const handleDelete = () => {
         if (selectedIds.length > 0) {

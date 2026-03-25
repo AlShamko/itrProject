@@ -1,24 +1,18 @@
 import styled from "styled-components";
 import {useLogto} from "@logto/react";
-import {useUserData} from "../hooks/user-data.ts";
-import {useTables} from "../hooks/useTables.ts";
+import {useTables} from "../hooks/useTables";
 import {useState} from "react";
-import { CardsBar } from "../components/CardsBar/CardsBar.tsx";
-import {CardsList} from "../components/CardsList/CardsList.tsx";
+import {CardsBar} from "../components/CardsBar/CardsBar";
+import {CardsList} from "../components/CardsList/CardsList";
 
 export const HomePage = () => {
     const {isAuthenticated} = useLogto();
-    const {userId, userScopes} = useUserData();
     const {tables, addTable, deleteTables} = useTables();
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-    console.log(isAuthenticated);
-    console.log(userScopes);
-    console.log(userId);
-
     const toggleSelect = (id: string) => {
-        setSelectedIds(prev =>
-            prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+        setSelectedIds((prev) =>
+            prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
         );
     };
 
@@ -35,7 +29,7 @@ export const HomePage = () => {
                 />
             )}
             <CardsList
-                table={tables}
+                tables={tables}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
                 isAuthenticated={isAuthenticated}
@@ -50,4 +44,4 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-`
+`;

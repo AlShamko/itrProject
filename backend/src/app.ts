@@ -5,9 +5,7 @@ import inventoryRoutes from "./routes/inventory.routes";
 import healthRoutes from "./routes/health.routes";
 import supportRoutes from "./routes/support.routes";
 import salesforceRoutes from "./routes/salesforce.routes";
-import {prisma} from "./config/prisma";
-import {requireAuth} from "./middleware/auth.middlware";
-import {AuthRequest} from "./types/auth.types";
+import userRoutes from "./routes/user.routes";
 
 export const app = express();
 app.use(express.json());
@@ -26,59 +24,8 @@ app.use("/health", healthRoutes);
 app.use("/api/inventory", inventoryRoutes);
 app.use("/api/support", supportRoutes);
 app.use("/api/salesforce", salesforceRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
-    res.send("Backend running 🚀");
-});
-
-app.get('/api/users', requireAuth(), async (req: AuthRequest, res) => {
-    try {
-        const users = await prisma.user.findMany({
-            orderBy: {createdAt: 'desc'}
-        });
-        res.json(users);
-    } catch (error) {
-        console.error("Fetch users error:", error);
-        res.status(500).json({error: 'Failed to fetch users'});
-    }
-});
-
-app.patch('/api/users/status', requireAuth(), async (req: AuthRequest, res) => {
-    const {ids, status} = req.body;
-
-    if (!Array.isArray(ids)) {
-        return res.status(400).json({error: "Ids must be an array"});
-    }
-
-    try {
-        const numericIds = ids.map(Number);
-
-        await prisma.user.updateMany({
-            where: {id: {in: numericIds}},
-            data: {status: status}
-        });
-
-        res.json({message: `Users status updated to ${status}`});
-    } catch (error) {
-        res.status(500).json({error: 'Update failed'});
-    }
-});
-
-app.delete('/api/users', requireAuth(), async (req: AuthRequest, res) => {
-    const {ids} = req.body;
-
-    if (!Array.isArray(ids)) {
-        return res.status(400).json({error: "Ids must be an array"});
-    }
-
-    try {
-        const numericIds = ids.map(Number);
-        await prisma.user.deleteMany({
-            where: {id: {in: numericIds}}
-        });
-
-        res.status(204).send();
-    } catch (error) {
-        res.status(500).json({error: 'Delete failed'});
-    }
+    res.send("Backend running");
 });

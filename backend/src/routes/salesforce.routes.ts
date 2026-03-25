@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { syncToCRM } from '../controllers/salesforce.controller';
+import {Router} from 'express';
+import {syncToCRM} from '../controllers/salesforce.controller';
 
 const router = Router();
 

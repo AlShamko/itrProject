@@ -4,7 +4,6 @@ import styled, {ThemeProvider} from "styled-components";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Header} from "./components/Header/Header.tsx";
 import {HomePage} from "./pages/HomePage.tsx";
-import {AdminPage} from "./pages/AdminPage.tsx";
 import {Callback} from "./pages/Callback.tsx";
 import {TablePage} from "./pages/TablePage.tsx";
 import {SupportTicketModal} from "./components/SupportTicketModal.tsx";
@@ -39,10 +38,6 @@ export const App = () => (
 
                             path="/table/:id"
                             element={<TablePage />}
-                        />
-                        <Route
-                            path="/admin"
-                            element={<AdminPage />}
                         />
                         <Route
                             path="/callback"

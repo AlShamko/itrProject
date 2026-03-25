@@ -1,20 +1,22 @@
 import styled from "styled-components";
-import type {User} from "../pages/AdminPage.tsx";
+import type {AdminUser} from "../types/user";
 
-interface TableRowProps {
-    user: User;
+interface UserRowProps {
+    user: AdminUser;
     isSelected: boolean;
     onSelect: () => void;
     index: number;
 }
 
-interface StyledRowProps {
-    $isSelected: boolean;
-}
+export const UserRow = ({user, isSelected, onSelect, index}: UserRowProps) => {
+    const statusLabel = user.status
+        ? user.status.charAt(0).toUpperCase() + user.status.slice(1)
+        : "Active";
 
-export const Users = ({user, isSelected, onSelect, index}: TableRowProps) => {
+    const isActive = !user.status || user.status === "active";
+
     return (
-        <StyledRow $isSelected={isSelected}>
+        <Row $isSelected={isSelected}>
             <td>
                 <input
                     type="checkbox"
@@ -26,27 +28,26 @@ export const Users = ({user, isSelected, onSelect, index}: TableRowProps) => {
             <td>{user.name}</td>
             <td>{user.email}</td>
             <td>
-                <StatusBadge $isActive={!user.status || user.status === 'active'}>
-                    {user.status ? user.status.charAt(0).toUpperCase() + user.status.slice(1) : 'Active'}
-                </StatusBadge>
+                <StatusBadge $isActive={isActive}>{statusLabel}</StatusBadge>
             </td>
-            <td>{new Date(user.created).toLocaleDateString()}</td>
-        </StyledRow>
+            <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+        </Row>
     );
 };
 
-const StyledRow = styled.tr<StyledRowProps>`
-    background-color: ${props => props.$isSelected ? 'rgba(144, 255, 144, 0.2)' : 'transparent'};
+const Row = styled.tr<{ $isSelected: boolean }>`
+  background-color: ${(props) =>
+    props.$isSelected ? "rgba(144, 255, 144, 0.2)" : "transparent"};
 
-    &:hover {
-        background-color: rgba(144, 255, 144, 0.1);
-    }
+  &:hover {
+    background-color: rgba(144, 255, 144, 0.1);
+  }
 `;
 
 const StatusBadge = styled.span<{ $isActive: boolean }>`
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    background-color: ${props => props.$isActive ? '#2e7d32' : '#d32f2f'};
-    color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: ${(props) => (props.$isActive ? "#2e7d32" : "#d32f2f")};
+  color: white;
 `;

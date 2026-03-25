@@ -17,36 +17,40 @@ export interface TableRow {
     year: string;
 }
 
+const STORAGE_KEY = "inventory_tables";
+
+const DEFAULT_TABLE: Table = {
+    id: "71d61424-b4f8-45dd-97ce-cd85fab7bf57",
+    title: "Table test 1",
+    author: "Aliaksandr",
+    isPublished: true,
+    category: "category1",
+    like: 15,
+    description: "Description",
+    rows: [],
+};
+
+function loadTablesFromStorage(): Table[] {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [DEFAULT_TABLE];
+
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed)
+            ? parsed.map((table: Table) => ({...table, rows: table.rows || []}))
+            : [];
+    } catch (error) {
+        console.error("Error parsing tables from localStorage:", error);
+        return [];
+    }
+}
 
 export const useTables = () => {
-    const [searchQuery, setSearchQuery] = useState<string>('');
-
-    const [tables, setTables] = useState<Table[]>(() => {
-        const savedTables = localStorage.getItem("inventory_tables");
-        if (!savedTables) return [{
-            id: "71d61424-b4f8-45dd-97ce-cd85fab7bf57",
-            title: "Table test 1",
-            author: "Aliaksandr",
-            isPublished: true,
-            category: "category1",
-            like: 15,
-            description: "Description",
-            rows: []
-        }];
-
-        try {
-            const parsed = JSON.parse(savedTables);
-            return Array.isArray(parsed)
-                ? parsed.map((t: Table) => ({...t, rows: t.rows || []}))
-                : [];
-        } catch (e) {
-            console.error("Error parsing localStorage", e);
-            return [];
-        }
-    });
+    const [searchQuery, setSearchQuery] = useState("");
+    const [tables, setTables] = useState<Table[]>(loadTablesFromStorage);
 
     useEffect(() => {
-        localStorage.setItem("inventory_tables", JSON.stringify(tables));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tables));
     }, [tables]);
 
     const addTable = () => {
@@ -57,61 +61,79 @@ export const useTables = () => {
             isPublished: true,
             category: "new",
             like: 0,
-            rows: []
+            rows: [],
         };
-        setTables(prev => [...prev, newTable]);
+        setTables((prev) => [...prev, newTable]);
     };
 
-    const deleteTables = (ids: string[]) => {
-        setTables(prev => {
-            const next = prev.filter(table => !ids.includes(table.id));
-            console.log("Tables after del:", next);
-            return next;
-        });
+    const deleteTables = (idsToDelete: string[]) => {
+        setTables((prev) =>
+            prev.filter((table) => !idsToDelete.includes(table.id))
+        );
     };
 
     const updateTable = (id: string, updatedFields: Partial<Table>) => {
-        setTables(prev => prev.map(table =>
-            table.id === id ? {...table, ...updatedFields} : table
-        ));
+        setTables((prev) =>
+            prev.map((table) =>
+                table.id === id ? {...table, ...updatedFields} : table
+            )
+        );
     };
 
-    const clearSearchQuery = searchQuery.trim().toLowerCase();
-    const filteredTables = clearSearchQuery.length > 0
-        ? tables.filter(({title}) => title.toLowerCase().includes(clearSearchQuery))
-        : null;
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    const filteredTables =
+        normalizedQuery.length > 0
+            ? tables.filter((table) =>
+                table.title.toLowerCase().includes(normalizedQuery)
+            )
+            : null;
 
     const addRow = (tableId: string) => {
         const newRow: TableRow = {
             id: crypto.randomUUID().slice(0, 8).toUpperCase(),
             equipment: "New Equipment",
-            year: "2026"
+            year: "2026",
         };
-        setTables(prev => prev.map(t =>
-            t.id === tableId ? {...t, rows: [...t.rows, newRow]} : t
-        ));
+        setTables((prev) =>
+            prev.map((table) =>
+                table.id === tableId
+                    ? {...table, rows: [...table.rows, newRow]}
+                    : table
+            )
+        );
     };
 
-    const updateRow = (tableId: string, rowId: string, updatedRow: Partial<TableRow>) => {
-        setTables(prev => prev.map(t => {
-            if (t.id !== tableId) return t;
-            return {
-                ...t,
-                rows: t.rows.map(r => r.id === rowId ? {...r, ...updatedRow} : r)
-            };
-        }));
+    const updateRow = (
+        tableId: string,
+        rowId: string,
+        updatedFields: Partial<TableRow>
+    ) => {
+        setTables((prev) =>
+            prev.map((table) => {
+                if (table.id !== tableId) return table;
+                return {
+                    ...table,
+                    rows: table.rows.map((row) =>
+                        row.id === rowId ? {...row, ...updatedFields} : row
+                    ),
+                };
+            })
+        );
     };
 
-    const deleteRows = (tableId: string, rowIds: string[]) => {
-        setTables(prev => prev.map(t => {
-            if (t.id !== tableId) return t;
-            return {
-                ...t,
-                rows: t.rows.filter(r => !rowIds.includes(r.id))
-            };
-        }));
+    const deleteRows = (tableId: string, rowIdsToDelete: string[]) => {
+        setTables((prev) =>
+            prev.map((table) => {
+                if (table.id !== tableId) return table;
+                return {
+                    ...table,
+                    rows: table.rows.filter(
+                        (row) => !rowIdsToDelete.includes(row.id)
+                    ),
+                };
+            })
+        );
     };
-
 
     return {
         tables,
@@ -123,6 +145,6 @@ export const useTables = () => {
         setSearchQuery,
         addRow,
         updateRow,
-        deleteRows
+        deleteRows,
     };
 };
